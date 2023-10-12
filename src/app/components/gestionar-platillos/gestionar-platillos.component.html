@@ -1,0 +1,99 @@
+<br>
+<div class = "container">
+<!-- Botón para abrir el modal -->
+<button type="button" class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#myModal">Nuevo</button>
+<br>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Platillo</h5>
+        <!-- Botón para cerrar el modal -->
+        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="addProduct()">
+          <div class="mb-3">
+            <label for="name" class="form-label">Nombre</label>
+            <input formControlName="name" type="text" class="form-control" placeholder="Ingrese el nombre">
+
+            <span *ngIf="form.get('name')?.hasError('required') &&form.get('name')?.touched">
+              El campo Nombre es <strong>requerido</strong>
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label for="categoria" class="form-label">Categoria</label>
+            <select formControlName="categoria" class="form-select">
+                <option value="1">Mariscos</option>
+                <option value="2">Sopas</option>
+                <option value="3">Bebidas</option>
+                <option value="4">Entradas</option>
+                <option value="5">Platos Fuertes</option>
+                <option value="6">Postres</option>
+                <option value="7">Extras</option>
+            </select>
+        </div>
+
+          <div class="modal-footer justify-content-center">
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Agregar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Tabla para mostrar los datos -->
+
+  <table class="table table-hover">
+    <thead>
+      <tr class="table-dark">
+        <th scope="col">Nombre</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listProducts" class="table-active">
+        <td>{{ item.nombrePlatillo }}</td>
+        <td>{{ item.categoriaID }}</td>
+        <td>
+          <button type="button" class="btn btn-info btn-sm me-2">Editar</button>
+
+          <button (click)="openDeleteModal(item.id!)" data-bs-toggle="modal" type="button" class="btn btn-danger btn-sm" data-bs-target="#myModalEliminar" >Eliminar</button>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<!-- Modal para eliminar PLATILLO-->
+
+<div class="modal fade" id="myModalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar Platillo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea eliminar el platillo con ID {{ selectedItemId }}?</p>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="selectedItemId !== null" (click)="deleteProduct()" type="button" class="btn btn-danger" data-bs-dismiss="modal" >Eliminar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
